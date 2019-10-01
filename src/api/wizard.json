@@ -1,0 +1,113 @@
+{
+  "meta": {
+    "title": "Bruke gamle byggevarer på nytt",
+    "footer": "Veiviser for deg som skal bruke gamle byggevarer på nytt"
+  },
+  "schema": [
+    {
+      "id": "about",
+      "type": "Page",
+      "heading": "Omsetning",
+      "children": [
+        {
+          "id": "onlySale",
+          "property": "onlySale",
+          "type": "Radio",
+          "heading": "Skal du omsette produktet?",
+          "text": "<p>Regelverket begrenser ikke ombruk av materialer der de benyttes til å gjenoppbygge samme eksisterende bygg eller til bygg som har samme eier. Hvis man derimot skal benytte ombruksmaterialer fra andre bygg med til dels ukjent opphav, setter byggevareforskriften noen viktige begrensninger. Dette gjelder både ved salg og når man gir bort produktet. </p>",
+          "options": [
+            {
+              "id": "onlySale.yes",
+              "type": "Answer",
+              "heading": "Ja",
+              "value": true
+            },
+            {
+              "id": "onlySale.no",
+              "type": "Answer",
+              "heading": "Nei",
+              "value": false
+            }
+          ]
+        },
+        {
+          "id": "ikkeOmfattet",
+          "type": "Result",
+          "show": { "field": "onlySale", "operator": "eq", "value": false },
+          "heading": "Byggevaren er ikke omfattet av kravene til omsetning",
+          "lead": "<p>Byggevarer som ikke omsettes må heller ikke oppfylle kravene i byggevareforskriften. Du må imidlertid også sjekke om byggevarers ytelser er tilstrekkelige for at bygningen skal oppfylle de tekniske krav i Byggteknisk forskrift. Det er tiltakshaver og de ansvarlige foretak i byggesaken som har ansvar for å velge produkter slik at byggverket som helhet tilfredsstiller de materielle kravene i forskriften.</p>"
+        }
+      ]
+    },
+    {
+      "id": "Recycling",
+      "type": "Page",
+      "heading": "Endringer av byggevaren",
+      "children": [
+        {
+          "id": "Recycling",
+          "property": "Recycling",
+          "type": "Radio",
+          "heading": "Skal produktet bearbeides?",
+          "text": "<p>Det er viktig å skille mellom resirkulering/gjennvinning og å bruke gamle produkter uten at man gjør endringer med det. Gjennvinning er å lage nye produkter av brukte byggevarer. Å ombruke byggevarer vil si å bruke gamle materialer på nytt uten endringer.</p>",
+          "options": [
+            {
+              "id": "Recycling.yes",
+              "type": "Answer",
+              "heading": "Ja, produktet skal gjennvinnes/resirkuleres",
+              "value": true
+            },
+            {
+              "id": "Recycling.no",
+              "type": "Answer",
+              "heading": "Nei, produktet skal ombrukes uten endringer",
+              "value": false
+            }
+          ]
+        },
+        {
+          "id": "RequirementDocument",
+          "type": "Result",
+          "show": { "field": "Recycling", "operator": "eq", "value": false },
+          "heading": "Du anses som produsent av byggevaren",
+          "lead": "<p>mer her</p>"
+        }
+      ]
+    },
+    {
+      "id": "Document",
+      "type": "Page",
+      "heading": "Tidligere krav til dokumentasjon",
+      "children": [
+        {
+          "id": "DocumentReq",
+          "property": "DocumentReq",
+          "type": "Radio",
+          "heading": "Var det krav til dokumentasjon da byggevaren først ble omsatt?",
+          "text": "<p>Dette er opp til</p>",
+          "options": [
+            {
+              "id": "DocumentReq.yes",
+              "type": "Answer",
+              "heading": "Ja",
+              "value": true
+            },
+            {
+              "id": "DocumentReq.no",
+              "type": "Answer",
+              "heading": "Nei",
+              "value": false
+            }
+          ]
+        },
+        {
+          "id": "RequirementDocument",
+          "type": "Result",
+          "show": { "field": "DocumentReq", "operator": "eq", "value": false },
+          "heading": "Du anses som produsent av byggevaren",
+          "lead": "<p>mer her</p>"
+        }
+      ]
+    }
+  ]
+}
