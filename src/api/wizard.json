@@ -1,13 +1,13 @@
 {
   "meta": {
-    "title": "Bruke gamle byggevarer på nytt",
-    "footer": "Veiviser for deg som skal bruke gamle byggevarer på nytt"
+    "title": "Selge gamle byggevarer på nytt",
+    "footer": "Veiviser for deg som skal selge gamle byggevarer på nytt"
   },
   "schema": [
     {
       "id": "about",
       "type": "Page",
-      "heading": "Omsetning",
+      "heading": "Er det omsetning?",
       "children": [
         {
           "id": "onlySale",
@@ -42,7 +42,7 @@
     {
       "id": "Recycling",
       "type": "Page",
-      "heading": "Endringer av byggevaren",
+      "heading": "Skal produktet bearbeides?",
       "children": [
         {
           "id": "Recycling",
@@ -55,13 +55,13 @@
               "id": "Recycling.yes",
               "type": "Answer",
               "heading": "Ja, produktet skal gjennvinnes/resirkuleres",
-              "value": true
+              "value": false
             },
             {
               "id": "Recycling.no",
               "type": "Answer",
               "heading": "Nei, produktet skal ombrukes uten endringer",
-              "value": false
+              "value": true
             }
           ]
         },
@@ -75,25 +75,52 @@
       ]
     },
     {
-      "id": "Document",
+      "id": "OldDocument",
       "type": "Page",
-      "heading": "Tidligere krav til dokumentasjon",
+      "heading": "Vurdere tidligere krav til dokumentasjon",
       "children": [
         {
-          "id": "DocumentReq",
-          "property": "DocumentReq",
+          "id": "OldDocumentReq",
+          "property": "OldDocumentReq",
           "type": "Radio",
           "heading": "Var det krav til dokumentasjon da byggevaren først ble omsatt?",
-          "text": "<p>Dette er opp til</p>",
+          "text": "<p>Det er opp til den som ønsker å omsette varen videre å vurdere om det var krav til produktet da det først ble omsatt på markedet. Under er en tabell som skal hjelpe til med denne vurderingen.</p> <p> <img src= https://dibk.no/contentassets/772e2f3bfe7349f39215bcf1ac69d808/ombruk-tabell-regelverk-.jpg /></p>",
           "options": [
             {
-              "id": "DocumentReq.yes",
+              "id": "OldDocumentReq.yes",
               "type": "Answer",
               "heading": "Ja",
               "value": true
             },
             {
-              "id": "DocumentReq.no",
+              "id": "OldDocumentReq.no",
+              "type": "Answer",
+              "heading": "Nei",
+              "value": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "YesDocument",
+      "type": "Page",
+      "heading": "Krav til dokumentasjon",
+      "children": [
+        {
+          "id": "TodayDocument",
+          "property": "TodayDocument",
+          "type": "Radio",
+          "heading": "Finnes det dokumentasjon på produktet i dag og kan du fremskaffe denne dokumentasjonen?",
+          "options": [
+            {
+              "id": "TodayDocument.yes",
+              "type": "Answer",
+              "heading": "Ja",
+              "value": true
+            },
+            {
+              "id": "TodayDocument.no",
               "type": "Answer",
               "heading": "Nei",
               "value": false
@@ -101,11 +128,114 @@
           ]
         },
         {
-          "id": "RequirementDocument",
-          "type": "Result",
-          "show": { "field": "DocumentReq", "operator": "eq", "value": false },
-          "heading": "Du anses som produsent av byggevaren",
-          "lead": "<p>mer her</p>"
+          "id": "YesDocumentBranch",
+          "type": "Branch",
+          "branches": [
+            {
+              "test": { "field": "TodayDocument", "operator": "eq", "value": true },
+              "children": [
+                {
+                  "id": "Charcteristics",
+                  "property": "Charcteristics",
+                  "type": "Radio",
+                  "heading": "Er en eller flere av egenskapene til produktet endret?",
+                  "options": [
+                    {
+                      "id": "Charcteristics.yes",
+                      "type": "Answer",
+                      "heading": "Ja",
+                      "value": true
+                    },
+                    {
+                      "id": "Charcteristics.no",
+                      "type": "Answer",
+                      "heading": "Nei",
+                      "value": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ResultProducer",
+                  "type": "Result",
+                  "heading": "Du er produsent",
+                  "lead": "Mer her",
+                  "show": { "field": "Charcteristics", "operator": "eq", "value": false }
+                },
+                {
+                  "id": "tripStartingPoint",
+                  "property": "tripStartingPoint",
+                  "type": "Radio",
+                  "heading": "Skal du selge produktet med det opprinnelige navnet og den opprinnelige dokumentasjonen?",
+                  "options": [
+                    {
+                      "id": "tripStartingPoint.home",
+                      "type": "Answer",
+                      "heading": "Ja",
+                      "value": true
+                    },
+                    {
+                      "id": "tripStartingPoint.work",
+                      "type": "Answer",
+                      "heading": "Nei",
+                      "value": false
+                    }
+                  ]
+                },
+                {
+                  "id": "travelFromHome",
+                  "type": "Result",
+                  "heading": "Ferdig 🎉",
+                  "lead": "Du må føre timer fra du reiste hjemmefra til du slutter på jobb.",
+                  "show": { "field": "tripStartingPoint", "operator": "eq", "value": "home" }
+                },
+                {
+                  "id": "travelFromWork",
+                  "type": "Result",
+                  "heading": "Ferdig 🎉",
+                  "lead": "Du må føre timer fra du kom på jobb til du kom hjem.",
+                  "show": { "field": "tripStartingPoint", "operator": "eq", "value": "work" }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "NoDocumentBranch",
+          "type": "Branch",
+          "branches": [
+            {
+              "test": { "field": "TodayDocument", "operator": "eq", "value": false },
+              "children": [
+                {
+                  "id": "Declare",
+                  "property": "Declare",
+                  "type": "Radio",
+                  "heading": "Du kan i utgangspunktet omsette produktet, men ønsker du å deklarere egenskaper for produktet i byggesaken?",
+                  "options": [
+                    {
+                      "id": "Declare.yes",
+                      "type": "Answer",
+                      "heading": "Ja",
+                      "value": true
+                    },
+                    {
+                      "id": "Declare.no",
+                      "type": "Answer",
+                      "heading": "Nei",
+                      "value": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ResultProducer",
+                  "type": "Result",
+                  "heading": "Du er produsent",
+                  "lead": "Mer her",
+                  "show": { "field": "Declare", "operator": "eq", "value": false }
+                }
+              ]
+            }
+          ]
         }
       ]
     }

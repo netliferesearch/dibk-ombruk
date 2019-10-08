@@ -11,7 +11,7 @@ function Intro({ close, data: { $computed, ...data } }) {
   return (
     <Primitives.Wizard>
       <IntroMain>
-        <Primitives.Heading.H1>Skal du bruke gamle byggevarer på nytt?</Primitives.Heading.H1>
+        <Primitives.Heading.H1>Skal du selge gamle byggevarer på nytt?</Primitives.Heading.H1>
         <Primitives.Paragraphs.Lead>
         Denne veiviseren hjelper deg med å finne kravene for å kunne omsette en gammel byggevare som skal brukes på nytt. Svar på spørsmålene for å finne ut om dokumentasjonen er i orden, eller om det er noe som mangler. 
         </Primitives.Paragraphs.Lead>
