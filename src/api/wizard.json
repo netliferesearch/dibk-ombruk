@@ -14,7 +14,7 @@
           "property": "onlySale",
           "type": "Radio",
           "heading": "Skal du omsette produktet?",
-          "text": "<p>Regelverket begrenser ikke ombruk av materialer der de benyttes til å gjenoppbygge samme eksisterende bygg eller til bygg som har samme eier. Hvis man derimot skal benytte ombruksmaterialer fra andre bygg med til dels ukjent opphav, setter byggevareforskriften noen viktige begrensninger. Dette gjelder både ved salg og når man gir bort produktet. </p>",
+          "text": "<p>Regelverket begrenser ikke ombruk av materialer der de benyttes til å gjenoppbygge samme eksisterende bygg eller til bygg som har samme eier. Hvis man derimot skal benytte ombruksmaterialer fra andre bygg med til dels ukjent opphav, setter byggevareforskriften noen viktige begrensninger. Omsetning omfatter både salg og når man gir bort produktet. </p>",
           "options": [
             {
               "id": "onlySale.yes",
@@ -31,11 +31,11 @@
           ]
         },
         {
-          "id": "ikkeOmfattet",
+          "id": "ResultNoRules",
           "type": "Result",
           "show": { "field": "onlySale", "operator": "eq", "value": false },
           "heading": "Byggevaren er ikke omfattet av kravene til omsetning",
-          "lead": "<p>Byggevarer som ikke omsettes må heller ikke oppfylle kravene i byggevareforskriften. Du må imidlertid også sjekke om byggevarers ytelser er tilstrekkelige for at bygningen skal oppfylle de tekniske krav i Byggteknisk forskrift. Det er tiltakshaver og de ansvarlige foretak i byggesaken som har ansvar for å velge produkter slik at byggverket som helhet tilfredsstiller de materielle kravene i forskriften.</p>"
+          "lead": "<p>Byggevarer som ikke omsettes må heller ikke oppfylle kravene i byggevareforskriften. Du må imidlertid også sjekke om byggevarers ytelser er tilstrekkelige for at bygningen skal oppfylle de tekniske krav i <a href='https://dibk.no/byggereglene/byggteknisk-forskrift-tek17/' target='_blank'>Byggteknisk forskrift</a>. </p> <p>Det er tiltakshaver og de ansvarlige foretak i byggesaken som har ansvar for å velge produkter slik at byggverket som helhet tilfredsstiller de materielle kravene i forskriften.</p>"
         }
       ]
     },
@@ -49,28 +49,28 @@
           "property": "Recycling",
           "type": "Radio",
           "heading": "Skal produktet bearbeides?",
-          "text": "<p>Det er viktig å skille mellom resirkulering/gjennvinning og å bruke gamle produkter uten at man gjør endringer med det. Gjennvinning er å lage nye produkter av brukte byggevarer. Å ombruke byggevarer vil si å bruke gamle materialer på nytt uten endringer.</p>",
+          "text": "<p>Det er viktig å skille mellom å resirkulere eller gjenvinne gamle produkter og å bruke et gammelt produkt uten at man gjør endringer med det. Gjenvinning er å lage nye produkter av brukte byggevarer. Å ombruke byggevarer vil si å bruke gamle materialer på nytt uten endringer.</p>",
           "options": [
             {
               "id": "Recycling.yes",
               "type": "Answer",
-              "heading": "Ja, produktet skal gjennvinnes/resirkuleres",
+              "heading": "Ja, produktet skal gjenvinnes/resirkuleres",
               "value": false
             },
             {
               "id": "Recycling.no",
               "type": "Answer",
-              "heading": "Nei, produktet skal ombrukes uten endringer",
+              "heading": "Nei, produktet skal brukes på nytt uten endringer (ombruk)",
               "value": true
             }
           ]
         },
         {
-          "id": "RequirementDocument",
+          "id": "ResultProducer",
           "type": "Result",
           "show": { "field": "Recycling", "operator": "eq", "value": false },
-          "heading": "Du anses som produsent av byggevaren",
-          "lead": "<p>mer her</p>"
+          "heading": "Du må skaffe ny dokumentasjon på produktet",
+          "lead": "<p></p>"
         }
       ]
     },
@@ -108,32 +108,39 @@
       "heading": "Krav til dokumentasjon",
       "children": [
         {
-          "id": "TodayDocument",
-          "property": "TodayDocument",
-          "type": "Radio",
-          "heading": "Finnes det dokumentasjon på produktet i dag og kan du fremskaffe denne dokumentasjonen?",
-          "options": [
-            {
-              "id": "TodayDocument.yes",
-              "type": "Answer",
-              "heading": "Ja",
-              "value": true
-            },
-            {
-              "id": "TodayDocument.no",
-              "type": "Answer",
-              "heading": "Nei",
-              "value": false
-            }
-          ]
-        },
-        {
           "id": "YesDocumentBranch",
           "type": "Branch",
           "branches": [
             {
-              "test": { "field": "TodayDocument", "operator": "eq", "value": true },
+              "test": { "field": "OldDocumentReq", "operator": "eq", "value": true },
               "children": [
+                {
+                  "id": "TodayDocument",
+                  "property": "TodayDocument",
+                  "type": "Radio",
+                  "heading": "Finnes det dokumentasjon på produktet i dag og kan du fremskaffe denne dokumentasjonen?",
+                  "options": [
+                    {
+                      "id": "TodayDocument.yes",
+                      "type": "Answer",
+                      "heading": "Ja",
+                      "value": true
+                    },
+                    {
+                      "id": "TodayDocument.no",
+                      "type": "Answer",
+                      "heading": "Nei",
+                      "value": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ResultProducer",
+                  "type": "Result",
+                  "heading": "Du er produsent",
+                  "lead": "Mer her",
+                  "show": { "field": "TodayDocument", "operator": "eq", "value": false }
+                },
                 {
                   "id": "Charcteristics",
                   "property": "Charcteristics",
@@ -159,22 +166,23 @@
                   "type": "Result",
                   "heading": "Du er produsent",
                   "lead": "Mer her",
-                  "show": { "field": "Charcteristics", "operator": "eq", "value": false }
+                  "show": { "field": "Charcteristics", "operator": "eq", "value": true }
                 },
                 {
-                  "id": "tripStartingPoint",
-                  "property": "tripStartingPoint",
+                  "id": "OwnName",
+                  "property": "OwnName",
                   "type": "Radio",
                   "heading": "Skal du selge produktet med det opprinnelige navnet og den opprinnelige dokumentasjonen?",
+                  "text": "<p> tekst </p>",
                   "options": [
                     {
-                      "id": "tripStartingPoint.home",
+                      "id": "OwnName.home",
                       "type": "Answer",
                       "heading": "Ja",
                       "value": true
                     },
                     {
-                      "id": "tripStartingPoint.work",
+                      "id": "OwnName.work",
                       "type": "Answer",
                       "heading": "Nei",
                       "value": false
@@ -182,18 +190,18 @@
                   ]
                 },
                 {
-                  "id": "travelFromHome",
+                  "id": "ResultProducer",
                   "type": "Result",
-                  "heading": "Ferdig 🎉",
-                  "lead": "Du må føre timer fra du reiste hjemmefra til du slutter på jobb.",
-                  "show": { "field": "tripStartingPoint", "operator": "eq", "value": "home" }
+                  "heading": "Du må skaffe ny dokumentasjon på produktet",
+                  "lead": "Mer her",
+                  "show": { "field": "OwnName", "operator": "eq", "value": false }
                 },
                 {
-                  "id": "travelFromWork",
+                  "id": "UseOldDocument",
                   "type": "Result",
-                  "heading": "Ferdig 🎉",
-                  "lead": "Du må føre timer fra du kom på jobb til du kom hjem.",
-                  "show": { "field": "tripStartingPoint", "operator": "eq", "value": "work" }
+                  "heading": "Du kan gjennbruke den gamle dokumentasjonen",
+                  "lead": "<p>Du kan gjenbruke den gamle dokumentasjonen  når du omsetter produktet. Du må imidlertid også sjekke om byggevarers ytelser er tilstrekkelige for at bygningen skal oppfylle de tekniske krav i Byggteknisk forskrift. Det er tiltakshaver og de ansvarlige foretak i byggesaken som har ansvar for å velge produkter slik at byggverket som helhet tilfredsstiller de materielle kravene i forskriften.</p>",
+                  "show": { "field": "OwnName", "operator": "eq", "value": true }
                 }
               ]
             }
@@ -204,13 +212,14 @@
           "type": "Branch",
           "branches": [
             {
-              "test": { "field": "TodayDocument", "operator": "eq", "value": false },
+              "test": { "field": "OldDocumentReq", "operator": "eq", "value": false },
               "children": [
                 {
                   "id": "Declare",
                   "property": "Declare",
                   "type": "Radio",
                   "heading": "Du kan i utgangspunktet omsette produktet, men ønsker du å deklarere egenskaper for produktet i byggesaken?",
+                  "text": "<p> tekst </p>",
                   "options": [
                     {
                       "id": "Declare.yes",
@@ -229,7 +238,14 @@
                 {
                   "id": "ResultProducer",
                   "type": "Result",
-                  "heading": "Du er produsent",
+                  "heading": "Du må skaffe ny dokumentasjon på produktet",
+                  "lead": "Mer her",
+                  "show": { "field": "Declare", "operator": "eq", "value": true }
+                },
+                {
+                  "id": "ResultNoRules",
+                  "type": "Result",
+                  "heading": "Byggevaren er ikke omfattet av kravene til omsetning",
                   "lead": "Mer her",
                   "show": { "field": "Declare", "operator": "eq", "value": false }
                 }
